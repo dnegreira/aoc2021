@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -11,8 +12,8 @@ var testdata = []int{
 
 func TestCountIncrease(t *testing.T) {
 	answer := 7
-	testname := fmt.Sprintf("%+v\n", testdata)
-	t.Run(testname, func(t *testing.T) {
+	testName := fmt.Sprintf("%+v\n", testdata)
+	t.Run(testName, func(t *testing.T) {
 		output := countIncrease(testdata)
 		if output != answer {
 			t.Errorf("got %d, answer %d", output, answer)
@@ -22,11 +23,20 @@ func TestCountIncrease(t *testing.T) {
 
 func TestSlidingWindow(t *testing.T) {
 	answer := 5
-	testname := fmt.Sprintf("%+v\n", testdata)
-	t.Run(testname, func(t *testing.T) {
+	testName := fmt.Sprintf("%+v\n", testdata)
+	t.Run(testName, func(t *testing.T) {
 		output := countSlidingWindow(testdata)
 		if output != answer {
 			t.Errorf("got %d, answer %d", output, answer)
 		}
 	})
+}
+
+func BenchmarkMain1000(b *testing.B) {
+	// run the Fib function b.N times
+	os.Stdout = nil
+	os.Stderr = nil
+	for n := 0; n < b.N; n++ {
+		main()
+	}
 }
