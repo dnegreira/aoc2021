@@ -5,29 +5,16 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
-	"strconv"
 )
 
 func main() {
-	var rawData []string
 
 	inputFile, err := filepath.Abs("input")
 	if err != nil {
 		log.Fatal(err)
 	}
-	rawData = advent.LoadInput(inputFile)
-
-	// since input is made of int
-	// we need to convert from string
-	// to int
-	var data []int
-	for _, v := range rawData {
-		i, err := strconv.Atoi(v)
-		if err != nil {
-			log.Fatal("Error converting to int: ", err)
-		}
-		data = append(data, i)
-	}
+	//Load input from file and convert to int.
+	data := advent.InputToInt(advent.LoadInput(inputFile))
 
 	totalIncreases := countIncrease(data)
 	fmt.Println("Total: ", totalIncreases)
