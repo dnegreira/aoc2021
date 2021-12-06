@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"strconv"
 )
 
 func LoadInput(filepath string) []string {
@@ -23,7 +24,23 @@ func LoadInput(filepath string) []string {
 		data = append(data, scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
+	log.Fatal(err)
 	}
 	return data
+}
+
+func InputToInt(data []string) []int {
+	///Lots of times the input need
+	///to be converted to Int.
+	///Writing this generic function
+	///To always do it the same way.
+	var intOutput []int
+	for _, v := range data {
+		i, err := strconv.Atoi(v)
+		if err != nil {
+			log.Fatal("Error converting to int: ", err)
+		}
+		intOutput = append(intOutput, i)
+	}
+	return intOutput
 }
