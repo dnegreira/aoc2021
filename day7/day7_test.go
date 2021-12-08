@@ -16,7 +16,8 @@ func TestCountFuel(t *testing.T) {
 	answer := 37
 	testName := fmt.Sprintf("%+v\n", testdata)
 	t.Run(testName, func(t *testing.T) {
-		output := calcMin(countFuel(testdata, 0, 16, false))
+		result := countFuel(&testdata, 0, 16, false)
+		output := calcMin(&result)
 		if output != answer {
 			t.Errorf("got %d, answer %d", output, answer)
 		}
@@ -27,7 +28,8 @@ func TestSlidingWindow(t *testing.T) {
 	answer := 168
 	testname := fmt.Sprintf("%+v\n", testdata)
 	t.Run(testname, func(t *testing.T) {
-		output := calcMin(countFuel(testdata, 0, 16, true))
+		result := countFuel(&testdata, 0, 16, true)
+		output := calcMin(&result)
 		if output != answer {
 			t.Errorf("got %d, answer %d", output, answer)
 		}

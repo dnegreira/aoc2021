@@ -25,27 +25,26 @@ func main() {
 		data = append(data, num)
 	}
 
-	min, max := calcMinMaxInput(data)
+	min, max := calcMinMaxInput(&data)
 
-	regularResult := countFuel(data, min, max, false)
-	minRegularResult := calcMin(regularResult)
+	regularResult := countFuel(&data, min, max, false)
+	minRegularResult := calcMin(&regularResult)
 
-	multipliedResults := countFuel(data, min, max, true)
-	minMultipliedResult := calcMin(multipliedResults)
+	multipliedResults := countFuel(&data, min, max, true)
+	minMultipliedResult := calcMin(&multipliedResults)
 	fmt.Println("Regular result: ", minRegularResult)
 	fmt.Println("Multiplied result: ", minMultipliedResult)
 }
 
 
-func countFuel (data []int, min int, max int, multiplier bool) map[string]int {
-	allResults := make(map[string]int)
+func countFuel (data *[]int, min int, max int, multiplier bool) []int {
+	allResults := make([]int, max+1)
 	// For easy reading :-)
 	curNum := min
 	for curNum <= max {
-		indexNum := strconv.FormatInt(int64(curNum), 10)
-		allResults[indexNum] = 0
+		allResults[curNum] = 0
 		var difference int
-		for _, nextNum := range data {
+		for _, nextNum := range *data {
 			if curNum != nextNum {
 				if curNum > nextNum {
 					difference = curNum - nextNum
@@ -54,15 +53,10 @@ func countFuel (data []int, min int, max int, multiplier bool) map[string]int {
 					difference = nextNum - curNum
 				}
 				if multiplier {
-					diffMultiplied := difference
-					for i := 0; i < difference; i++ {
-						diffMultiplied += i
-					}
-					indexNum := strconv.FormatInt(int64(curNum), 10)
-					allResults[indexNum] += diffMultiplied
+					diffMultiplied := ((difference +1)*difference)/2
+					allResults[curNum] += diffMultiplied
 				} else {
-					indexNum := strconv.FormatInt(int64(curNum), 10)
-					allResults[indexNum] += difference
+					allResults[curNum] += difference
 				}
 			}
 		}
@@ -71,11 +65,12 @@ func countFuel (data []int, min int, max int, multiplier bool) map[string]int {
 	return allResults
 }
 
-func calcMin (allResults map[string]int) int {
+func calcMin (allResults *[]int) int {
 	var minResult int
-	for i, min := range allResults{
+	p := *allResults
+	for i, min := range p{
 		if minResult == 0 {
-			minResult = allResults[i]
+			minResult = p[i]
 		}
 		if min < minResult {
 			minResult = min
@@ -84,9 +79,10 @@ func calcMin (allResults map[string]int) int {
 	return minResult
 }
 
-func calcMinMaxInput (data []int) (int, int) {
+func calcMinMaxInput (data *[]int) (int, int) {
 	var min, max int
-	for _, v := range data {
+	p := *data
+	for _, v := range p {
 		if v < min {
 			min = v
 		}
